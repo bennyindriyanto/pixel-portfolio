@@ -1,55 +1,64 @@
-
-import React from 'react';
-import PixelArt from '../ui/PixelArt';
-import { Database, Server, Code, Monitor, Terminal, 
-  HardDrive, GitBranch, Network, Container, TerminalSquare } from 'lucide-react';
+import React from "react";
+import PixelArt from "../ui/PixelArt";
+import {
+  Database,
+  Server,
+  Code,
+  Monitor,
+  Terminal,
+  HardDrive,
+  GitBranch,
+  Network,
+  Container,
+  TerminalSquare,
+} from "lucide-react";
 
 const Skills = () => {
   const skillCategories = [
     {
-      name: 'Backend',
+      name: "Backend",
       icon: <Server size={20} />,
-      skills: ['Java', 'JavaScript', 'C++'],
+      skills: ["Java", "JavaScript", "C++"],
     },
     {
-      name: 'Frontend',
+      name: "Frontend",
       icon: <Monitor size={20} />,
-      skills: ['React', 'HTML', 'Tailwind CSS', 'CSS'],
+      skills: ["React", "HTML", "Tailwind CSS", "CSS"],
     },
     {
-      name: 'Database',
+      name: "Database",
       icon: <Database size={20} />,
-      skills: ['PostgreSQL', 'MySQL', 'MongoDB', 'SQL'],
+      skills: ["PostgreSQL", "MySQL", "MongoDB", "SQL"],
     },
     {
-      name: 'Caching/NoSQL',
+      name: "Caching/NoSQL",
       icon: <HardDrive size={20} />,
-      skills: ['Redis', 'Memcached'],
+      skills: ["Redis", "Memcached"],
     },
     {
-      name: 'Version Control',
+      name: "Version Control",
       icon: <GitBranch size={20} />,
-      skills: ['GitHub'],
+      skills: ["GitHub"],
     },
     {
-      name: 'Methodology',
+      name: "Methodology",
       icon: <Code size={20} />,
-      skills: ['Agile', 'Scrum'],
+      skills: ["Agile", "Scrum"],
     },
     {
-      name: 'Networking',
+      name: "Networking",
       icon: <Network size={20} />,
-      skills: ['TCP/IP', 'HTTP/HTTPS'],
+      skills: ["TCP/IP", "HTTP/HTTPS"],
     },
     {
-      name: 'Containerization',
+      name: "Containerization",
       icon: <Container size={20} />,
-      skills: ['Docker'],
+      skills: ["Docker"],
     },
     {
-      name: 'Deployment',
+      name: "Deployment",
       icon: <TerminalSquare size={20} />,
-      skills: ['Linux Server', 'Apache Tomcat'],
+      skills: ["Linux Server", "Apache Tomcat", "AWS", "Heroku"],
     },
   ];
 
@@ -61,19 +70,24 @@ const Skills = () => {
             <PixelArt type="cursor" size="sm" />
             Technical Skills
           </h2>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
             {skillCategories.map((category, index) => (
-              <div 
+              <div
                 key={category.name}
                 className="glass p-6 rounded-lg opacity-0 animate-fade-in-up"
-                style={{ animationDelay: `${0.1 + index * 0.1}s`, animationFillMode: 'forwards' }}
+                style={{
+                  animationDelay: `${0.1 + index * 0.1}s`,
+                  animationFillMode: "forwards",
+                }}
               >
                 <div className="flex items-center gap-2 mb-3">
                   <div className="text-blue-400">{category.icon}</div>
-                  <h3 className="font-mono text-sm tracking-wider">{category.name}</h3>
+                  <h3 className="font-mono text-sm tracking-wider">
+                    {category.name}
+                  </h3>
                 </div>
-                
+
                 <div className="space-y-2">
                   {category.skills.map((skill) => (
                     <div key={skill} className="flex items-center">
