@@ -5,7 +5,18 @@ import PixelArt from '../ui/PixelArt';
 const About = () => {
   return (
     <section id="about" className="relative">
-      <div className="container px-4 mx-auto">
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <div className="w-full h-full">
+          <img 
+            src="/lovable-uploads/2aa6c047-e6eb-4249-982d-47fc11fe4f96.png" 
+            alt="Portrait in a tea garden" 
+            className="w-full h-full object-cover object-center opacity-20 filter brightness-50 contrast-75"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background/70"></div>
+        </div>
+      </div>
+      
+      <div className="container px-4 mx-auto relative z-10">
         <div className="max-w-3xl mx-auto">
           <h2 className="section-title flex items-center gap-2">
             <PixelArt type="cursor" size="sm" />

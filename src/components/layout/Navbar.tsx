@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import PixelArt from '../ui/PixelArt';
@@ -19,7 +18,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: 'Home', href: '/' },
-    { name: 'About', href: '/#about' },
+    { name: 'About Me', href: '/#about' },
     { name: 'Skills', href: '/#skills' },
     { name: 'Education', href: '/#education' },
     { name: 'Certifications', href: '/#certifications' },
