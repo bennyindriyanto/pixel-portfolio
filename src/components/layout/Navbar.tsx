@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X } from 'lucide-react';
 import PixelArt from '../ui/PixelArt';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -17,12 +18,23 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Skills', href: '#skills' },
-    { name: 'Education', href: '#education' },
-    { name: 'Certifications', href: '#certifications' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Home', href: '/' },
+    { name: 'About', href: '/#about' },
+    { name: 'Skills', href: '/#skills' },
+    { name: 'Education', href: '/#education' },
+    { name: 'Certifications', href: '/#certifications' },
+    { name: 'Contact', href: '/#contact' },
   ];
+
+  const handleNavigation = (href: string) => {
+    if (href.startsWith('/#')) {
+      // We're navigating to a section on the home page
+      window.location.href = href;
+    }
+    if (mobileMenuOpen) {
+      setMobileMenuOpen(false);
+    }
+  };
 
   return (
     <header
@@ -31,25 +43,34 @@ const Navbar = () => {
       }`}
     >
       <div className="container flex items-center justify-between px-4 mx-auto">
-        <a
-          href="#"
+        <Link
+          to="/"
           className="flex items-center gap-2 text-lg font-mono font-bold transition-all duration-300 hover:text-blue-400"
         >
           <PixelArt type="cursor" size="sm" animated={false} />
           <span>DEV_PORTFOLIO</span>
-        </a>
+        </Link>
 
         {/* Desktop Menu */}
         <nav className="hidden md:block">
           <ul className="flex items-center space-x-8">
             {navLinks.map((link) => (
               <li key={link.name}>
-                <a
-                  href={link.href}
-                  className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full"
-                >
-                  {link.name}
-                </a>
+                {link.href.includes('#') ? (
+                  <a
+                    href={link.href}
+                    className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full"
+                  >
+                    {link.name}
+                  </a>
+                ) : (
+                  <Link
+                    to={link.href}
+                    className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full"
+                  >
+                    {link.name}
+                  </Link>
+                )}
               </li>
             ))}
           </ul>
@@ -71,13 +92,23 @@ const Navbar = () => {
               <ul className="flex flex-col items-center space-y-6">
                 {navLinks.map((link) => (
                   <li key={link.name} className="w-full text-center">
-                    <a
-                      href={link.href}
-                      className="block py-2 text-xl font-medium transition-colors hover:text-blue-400"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      {link.name}
-                    </a>
+                    {link.href.includes('#') ? (
+                      <a
+                        href={link.href}
+                        className="block py-2 text-xl font-medium transition-colors hover:text-blue-400"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.href}
+                        className="block py-2 text-xl font-medium transition-colors hover:text-blue-400"
+                        onClick={() => setMobileMenuOpen(false)}
+                      >
+                        {link.name}
+                      </Link>
+                    )}
                   </li>
                 ))}
               </ul>
