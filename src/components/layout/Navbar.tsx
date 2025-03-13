@@ -48,7 +48,7 @@ const Navbar = () => {
           className="flex items-center gap-2 text-lg font-mono font-bold transition-all duration-300 hover:text-blue-400"
         >
           <PixelArt type="cursor" size="sm" animated={false} />
-          <span>DEV_PORTFOLIO</span>
+          <span>Benny Indriyanto - Portofolio</span>
         </Link>
 
         {/* Desktop Menu */}
