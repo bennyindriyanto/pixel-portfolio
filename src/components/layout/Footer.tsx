@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { GitHub, Linkedin, Mail } from 'lucide-react';
+import { Github, Linkedin, Mail } from 'lucide-react';
 import PixelArt from '../ui/PixelArt';
 
 const Footer = () => {
@@ -10,7 +10,7 @@ const Footer = () => {
     {
       name: 'GitHub',
       href: 'https://github.com/',
-      icon: <GitHub size={20} />,
+      icon: <Github size={20} />,
     },
     {
       name: 'LinkedIn',
