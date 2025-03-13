@@ -9,17 +9,17 @@ const Footer = () => {
   const socialLinks = [
     {
       name: 'GitHub',
-      href: 'https://github.com/',
+      href: 'https://github.com/bennyindriyanto',
       icon: <Github size={20} />,
     },
     {
       name: 'LinkedIn',
-      href: 'https://linkedin.com/in/',
+      href: 'https://www.linkedin.com/in/benny-indriyanto',
       icon: <Linkedin size={20} />,
     },
     {
       name: 'Email',
-      href: 'mailto:contact@example.com',
+      href: 'mailto:benny.indriyanto@ibm.com',
       icon: <Mail size={20} />,
     },
   ];

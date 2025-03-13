@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import PixelArt from '../ui/PixelArt';
 import { Mail, Send } from 'lucide-react';
 import { useToast } from "@/components/ui/use-toast";
+import { Link } from 'react-router-dom';
+import { Button } from '../ui/button';
 
 const Contact = () => {
   const { toast } = useToast();
@@ -60,6 +62,15 @@ const Contact = () => {
                   Have a project in mind or interested in working together? 
                   Fill out the form and I'll get back to you as soon as possible.
                 </p>
+                
+                <div className="mt-4 mb-8">
+                  <Link to="/contact">
+                    <Button variant="outline" className="gap-2">
+                      View Contact Details
+                      <Send size={16} />
+                    </Button>
+                  </Link>
+                </div>
                 
                 <div className="hidden md:block mt-8">
                   <PixelArt type="computer" size="lg" />
