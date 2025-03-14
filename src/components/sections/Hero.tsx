@@ -45,7 +45,7 @@ const Hero = () => {
           <div className="flex justify-center mb-6 opacity-0 animate-fade-in-down [animation-delay:0.05s] [animation-fill-mode:forwards]">
             <Avatar className="w-32 h-32 border-4 border-blue-400/20">
               <AvatarImage 
-                src="https://drive.google.com/thumbnail?id=19CmKnVi7Voev7CDU0QtjBXFa3F7zByJb" 
+                src="https://drive.google.com/thumbnail?id=1OsKp-9PBbSqxhOpdmIuYVq_YwiWcoySk" 
                 alt="Profile" 
               />
               <AvatarFallback>BI</AvatarFallback>
