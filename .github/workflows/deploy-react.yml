@@ -3,7 +3,7 @@ name: Deploy React Vite App to AWS EC2
 on:
   push:
     branches:
-      - main  # Change this to your deployment branch if different
+      - main  # Adjust if deploying from a different branch
 
 jobs:
   deploy:
@@ -12,17 +12,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 18  # Adjust based on your app requirements
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Project
-        run: npm run build
 
       - name: Set up SSH Key
         run: |
@@ -34,26 +23,28 @@ jobs:
           ssh-add ~/.ssh/id_rsa
 
       - name: Test SSH Connection
-        run: ssh -vvv -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo 'SSH connection successful'"
+        run: ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo 'SSH connection successful'"
 
+      - name: Deploy with PM2
+        run: |
+          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          cd /home/ec2-user/pixel-portfolio-engine  # Change to your project path
+          
+          # Pull latest changes
+          git pull origin main
+          
+          # Install dependencies
+          npm install --production
+          
+          # Build the project (Only on EC2)
+          npm run build
 
-      - name: Deploy to EC2
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          source: "dist/*"
-          target: "/home/ec2-user/pixel-portfolio-engine/dist"
-          overwrite: true
-          debug: true
-
-      - name: Restart Server
-        uses: appleboy/ssh-action@master
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            sudo systemctl restart nginx  # Change this if using PM2 or another process manager
+          # Restart with PM2
+          pm2 stop pixel-portfolio || true  # Stop existing process if running
+          pm2 start npm --name "pixel-portfolio" -- run preview  # Start Vite preview mode with PM2
+          
+          # Save PM2 process list
+          pm2 save
+          
+          exit
+          EOF
