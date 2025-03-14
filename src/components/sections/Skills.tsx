@@ -58,7 +58,7 @@ const Skills = () => {
     {
       name: "Deployment",
       icon: <TerminalSquare size={20} />,
-      skills: ["Linux Server", "Apache Tomcat", "AWS", "Heroku"],
+      skills: ["Linux Server", "Apache Tomcat", "AWS", "nginx", "ci/cd"],
     },
   ];
 
