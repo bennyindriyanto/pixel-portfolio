@@ -45,11 +45,15 @@ const Hero = () => {
           <div className="flex justify-center mb-6 opacity-0 animate-fade-in-down [animation-delay:0.05s] [animation-fill-mode:forwards]">
             <Avatar className="w-32 h-32 border-4 border-blue-400/20">
             <Avatar className="w-32 h-32 border-4 border-blue-400/20 overflow-hidden">
+            <Avatar className="w-32 h-32 border-4 border-blue-400/20 overflow-hidden">
   <AvatarImage 
     src="https://drive.google.com/thumbnail?id=19CmKnVi7Voev7CDU0QtjBXFa3F7zByJb" 
     alt="Benny Indriyanto"
-    className="transition-transform duration-300 hover:scale-150"
+    className="transition-transform duration-300 hover:scale-[1.5]"
   />
+  <AvatarFallback>BI</AvatarFallback>
+</Avatar>
+
   <AvatarFallback>BI</AvatarFallback>
 </Avatar>
               <AvatarFallback>BI</AvatarFallback>
