@@ -47,7 +47,6 @@ const Hero = () => {
             <AvatarImage 
               src="https://drive.google.com/thumbnail?id=1OsKp-9PBbSqxhOpdmIuYVq_YwiWcoySk" 
               alt="New Image"
-              className="scale-[2] object-cover transition-transform duration-300 hover:scale-[1.5]"
             />
               <AvatarFallback>BI</AvatarFallback>
             </Avatar>
