@@ -54,7 +54,7 @@ const Navbar = () => {
           onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <PixelArt type="cursor" size="sm" animated={false} />
-          <span>Benny Indriyanto - Portofolio</span>
+          <span>Benny Indriyanto</span>
         </Link>
 
         {/* Desktop Menu */}
