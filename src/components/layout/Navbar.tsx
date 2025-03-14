@@ -18,23 +18,26 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '/', icon: <PixelArt type="cursor" size="sm" animated={false} /> },
-    { name: 'About Me', href: '/#about', icon: null },
-    { name: 'Experience', href: '/#experience', icon: <Briefcase size={16} /> },
-    { name: 'Projects', href: '/#projects', icon: <Code size={16} /> },
-    { name: 'Skills', href: '/#skills', icon: null },
-    { name: 'Education', href: '/#education', icon: null },
-    { name: 'Certifications', href: '/#certifications', icon: null },
-    { name: 'Contact', href: '/#contact', icon: null },
+    { name: 'Home', href: '#', icon: <PixelArt type="cursor" size="sm" animated={false} /> },
+    { name: 'About Me', href: '#about', icon: null },
+    { name: 'Experience', href: '#experience', icon: <Briefcase size={16} /> },
+    { name: 'Projects', href: '#projects', icon: <Code size={16} /> },
+    { name: 'Skills', href: '#skills', icon: null },
+    { name: 'Education', href: '#education', icon: null },
+    { name: 'Certifications', href: '#certifications', icon: null },
+    { name: 'Contact', href: '#contact', icon: null },
   ];
 
   const handleNavigation = (href: string) => {
-    if (href === '/') {
+    if (href === '#') {
       // Scroll to top for home
       window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (href.startsWith('/#')) {
+    } else if (href.startsWith('#')) {
       // We're navigating to a section on the home page
-      window.location.href = href;
+      const element = document.querySelector(href);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
     }
     if (mobileMenuOpen) {
       setMobileMenuOpen(false);
@@ -48,38 +51,34 @@ const Navbar = () => {
       }`}
     >
       <div className="container flex items-center justify-between px-4 mx-auto">
-        <Link
-          to="/"
+        <a
+          href="#"
           className="flex items-center gap-2 text-lg font-mono font-bold transition-all duration-300 hover:text-blue-400"
-          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+          onClick={(e) => {
+            e.preventDefault();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+          }}
         >
           <PixelArt type="cursor" size="sm" animated={false} />
           <span>Benny Indriyanto</span>
-        </Link>
+        </a>
 
         {/* Desktop Menu */}
         <nav className="hidden md:block">
           <ul className="flex items-center space-x-8">
             {navLinks.map((link) => (
               <li key={link.name}>
-                {link.href.includes('#') ? (
-                  <a
-                    href={link.href}
-                    className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full flex items-center gap-1.5"
-                  >
-                    {link.icon}
-                    {link.name}
-                  </a>
-                ) : (
-                  <Link
-                    to={link.href}
-                    className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full flex items-center gap-1.5"
-                    onClick={() => handleNavigation(link.href)}
-                  >
-                    {link.icon}
-                    {link.name}
-                  </Link>
-                )}
+                <a
+                  href={link.href}
+                  className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full flex items-center gap-1.5"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigation(link.href);
+                  }}
+                >
+                  {link.icon}
+                  {link.name}
+                </a>
               </li>
             ))}
           </ul>
@@ -101,28 +100,18 @@ const Navbar = () => {
               <ul className="flex flex-col items-center space-y-6">
                 {navLinks.map((link) => (
                   <li key={link.name} className="w-full text-center">
-                    {link.href.includes('#') ? (
-                      <a
-                        href={link.href}
-                        className="flex items-center justify-center gap-2 py-2 text-xl font-medium transition-colors hover:text-blue-400"
-                        onClick={() => setMobileMenuOpen(false)}
-                      >
-                        {link.icon}
-                        {link.name}
-                      </a>
-                    ) : (
-                      <Link
-                        to={link.href}
-                        className="flex items-center justify-center gap-2 py-2 text-xl font-medium transition-colors hover:text-blue-400"
-                        onClick={() => {
-                          setMobileMenuOpen(false);
-                          handleNavigation(link.href);
-                        }}
-                      >
-                        {link.icon}
-                        {link.name}
-                      </Link>
-                    )}
+                    <a
+                      href={link.href}
+                      className="flex items-center justify-center gap-2 py-2 text-xl font-medium transition-colors hover:text-blue-400"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        handleNavigation(link.href);
+                        setMobileMenuOpen(false);
+                      }}
+                    >
+                      {link.icon}
+                      {link.name}
+                    </a>
                   </li>
                 ))}
               </ul>

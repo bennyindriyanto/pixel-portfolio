@@ -10,10 +10,12 @@ import Certifications from '@/components/sections/Certifications';
 import Contact from '@/components/sections/Contact';
 import Experience from '@/components/sections/Experience';
 import Projects from '@/components/sections/Projects';
+import ParticleBackground from '@/components/sections/ParticleBackground';
 
 const Index = () => {
   return (
     <div className="relative min-h-screen flex flex-col">
+      <ParticleBackground />
       <Navbar />
       
       <main className="flex-grow">
