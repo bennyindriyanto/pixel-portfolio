@@ -1,29 +1,43 @@
-name: Deploy to AWS EC2
+name: Deploy React Vite App to AWS EC2
 
 on:
   push:
     branches:
-      - main  # Change this if needed
+      - main  # Change this to your deployment branch if different
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v3
 
-      - name: Install SSH Key
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
-          ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
+          node-version: 18  # Adjust based on your app requirements
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Build Project
+        run: npm run build
 
       - name: Deploy to EC2
-        run: |
-          ssh -o StrictHostKeyChecking=no ec2-user@your-ec2-ip << 'EOF'
-            cd /home/ec2-user/pixel-portfolio-engine
-            git pull origin main
-            npm install
-            npm run build
-            sudo systemctl restart nginx
-          EOF
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "dist/*"
+          target: "/home/ec2-user/pixel-portfolio-engine/dist"
+
+      - name: Restart Server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            sudo systemctl restart nginx  # Change this if using PM2 or another process manager
