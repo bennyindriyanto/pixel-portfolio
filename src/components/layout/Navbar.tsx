@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Briefcase, Code } from 'lucide-react';
 import PixelArt from '../ui/PixelArt';
 import { Link } from 'react-router-dom';
 
@@ -18,16 +18,21 @@ const Navbar = () => {
   }, []);
 
   const navLinks = [
-    { name: 'Home', href: '/' },
-    { name: 'About', href: '/#about' },
-    { name: 'Skills', href: '/#skills' },
-    { name: 'Education', href: '/#education' },
-    { name: 'Certifications', href: '/#certifications' },
-    { name: 'Contact', href: '/#contact' },
+    { name: 'Home', href: '/', icon: <PixelArt type="cursor" size="sm" animated={false} /> },
+    { name: 'About Me', href: '/#about', icon: null },
+    { name: 'Experience', href: '/#experience', icon: <Briefcase size={16} /> },
+    { name: 'Projects', href: '/#projects', icon: <Code size={16} /> },
+    { name: 'Skills', href: '/#skills', icon: null },
+    { name: 'Education', href: '/#education', icon: null },
+    { name: 'Certifications', href: '/#certifications', icon: null },
+    { name: 'Contact', href: '/#contact', icon: null },
   ];
 
   const handleNavigation = (href: string) => {
-    if (href.startsWith('/#')) {
+    if (href === '/') {
+      // Scroll to top for home
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else if (href.startsWith('/#')) {
       // We're navigating to a section on the home page
       window.location.href = href;
     }
@@ -46,6 +51,7 @@ const Navbar = () => {
         <Link
           to="/"
           className="flex items-center gap-2 text-lg font-mono font-bold transition-all duration-300 hover:text-blue-400"
+          onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
         >
           <PixelArt type="cursor" size="sm" animated={false} />
           <span>Benny Indriyanto - Portofolio</span>
@@ -59,15 +65,18 @@ const Navbar = () => {
                 {link.href.includes('#') ? (
                   <a
                     href={link.href}
-                    className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full"
+                    className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full flex items-center gap-1.5"
                   >
+                    {link.icon}
                     {link.name}
                   </a>
                 ) : (
                   <Link
                     to={link.href}
-                    className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full"
+                    className="relative font-medium text-sm transition-colors hover:text-blue-400 after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-0 after:bg-blue-400 after:transition-all hover:after:w-full flex items-center gap-1.5"
+                    onClick={() => handleNavigation(link.href)}
                   >
+                    {link.icon}
                     {link.name}
                   </Link>
                 )}
@@ -95,17 +104,22 @@ const Navbar = () => {
                     {link.href.includes('#') ? (
                       <a
                         href={link.href}
-                        className="block py-2 text-xl font-medium transition-colors hover:text-blue-400"
+                        className="flex items-center justify-center gap-2 py-2 text-xl font-medium transition-colors hover:text-blue-400"
                         onClick={() => setMobileMenuOpen(false)}
                       >
+                        {link.icon}
                         {link.name}
                       </a>
                     ) : (
                       <Link
                         to={link.href}
-                        className="block py-2 text-xl font-medium transition-colors hover:text-blue-400"
-                        onClick={() => setMobileMenuOpen(false)}
+                        className="flex items-center justify-center gap-2 py-2 text-xl font-medium transition-colors hover:text-blue-400"
+                        onClick={() => {
+                          setMobileMenuOpen(false);
+                          handleNavigation(link.href);
+                        }}
                       >
+                        {link.icon}
                         {link.name}
                       </Link>
                     )}

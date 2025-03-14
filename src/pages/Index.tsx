@@ -8,6 +8,8 @@ import Skills from '@/components/sections/Skills';
 import Education from '@/components/sections/Education';
 import Certifications from '@/components/sections/Certifications';
 import Contact from '@/components/sections/Contact';
+import Experience from '@/components/sections/Experience';
+import Projects from '@/components/sections/Projects';
 
 const Index = () => {
   return (
@@ -19,6 +21,8 @@ const Index = () => {
         
         <div className="space-y-24 mb-24">
           <About />
+          <Experience />
+          <Projects />
           <Skills />
           <Education />
           <Certifications />
