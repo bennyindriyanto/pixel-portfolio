@@ -48,7 +48,7 @@ const Hero = () => {
   <AvatarImage 
     src="https://drive.google.com/thumbnail?id=19CmKnVi7Voev7CDU0QtjBXFa3F7zByJb" 
     alt="Benny Indriyanto"
-    className="transition-transform duration-300 hover:scale-125"
+    className="transition-transform duration-300 hover:scale-150"
   />
   <AvatarFallback>BI</AvatarFallback>
 </Avatar>
