@@ -44,7 +44,14 @@ const Hero = () => {
         <div className="max-w-3xl mx-auto text-center">
           <div className="flex justify-center mb-6 opacity-0 animate-fade-in-down [animation-delay:0.05s] [animation-fill-mode:forwards]">
             <Avatar className="w-32 h-32 border-4 border-blue-400/20">
-            <AvatarImage src="https://drive.google.com/thumbnail?id=19CmKnVi7Voev7CDU0QtjBXFa3F7zByJb" alt="Benny Indriyanto" />
+            <Avatar className="w-32 h-32 border-4 border-blue-400/20 overflow-hidden">
+  <AvatarImage 
+    src="https://drive.google.com/thumbnail?id=19CmKnVi7Voev7CDU0QtjBXFa3F7zByJb" 
+    alt="Benny Indriyanto"
+    className="transition-transform duration-300 hover:scale-125"
+  />
+  <AvatarFallback>BI</AvatarFallback>
+</Avatar>
               <AvatarFallback>BI</AvatarFallback>
             </Avatar>
           </div>
