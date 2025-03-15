@@ -44,7 +44,7 @@ const Skills = () => {
     {
       name: "Version Control",
       icon: <GitBranch size={20} />,
-      skills: ["GitHub", "GitLab"],
+      skills: ["Git", "GitHub", "GitLab"],
     },
     {
       name: "Methodology",
