@@ -16,35 +16,31 @@ jobs:
       - name: Set up SSH Key
         run: |
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' > ~/.ssh/id_rsa
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
 
       - name: Test SSH Connection
-        run: ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo 'SSH connection successful'"
+        run: ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} "echo 'SSH connection successful'"
 
-      - name: Deploy with PM2
+      - name: Deploy to EC2
         run: |
-          ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
-          cd /home/ec2-user/pixel-portfolio-engine  # Change to your project path
-          
-          # Pull latest changes
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+          cd /home/ec2-user/pixel-portfolio-engine  # Ensure this is the correct path
+
+          # Pull the latest code
           git pull origin main
-          
-          # Install dependencies
-          npm install --production
-          
-          # Build the project (Only on EC2)
+
+          # Ensure correct Node.js version
+          corepack enable
+          npm install
+
+          # Build the project
           npm run build
 
-          # Restart with PM2
-          pm2 stop pixel-portfolio || true  # Stop existing process if running
-          pm2 start npm --name "pixel-portfolio" -- run preview  # Start Vite preview mode with PM2
-          
-          # Save PM2 process list
+          # Restart PM2 process (better than stop/start)
+          pm2 restart pixel-portfolio || pm2 start npm --name "pixel-portfolio" -- run preview
+
+          # Save PM2 process list to persist across reboots
           pm2 save
-          
-          exit
           EOF
