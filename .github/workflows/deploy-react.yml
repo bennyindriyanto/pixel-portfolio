@@ -3,7 +3,7 @@ name: Deploy React Vite App to AWS EC2
 on:
   push:
     branches:
-      - main  # Adjust if deploying from a different branch
+      - main
 
 jobs:
   deploy:
