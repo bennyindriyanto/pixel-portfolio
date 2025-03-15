@@ -4,9 +4,7 @@ import { Mail, Send } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
-import { Resend } from "resend";
-
-const resend = new Resend("re_123456789");
+import axios from "axios";
 
 const Contact = () => {
   const { toast } = useToast();
@@ -15,6 +13,7 @@ const Contact = () => {
     email: "",
     message: "",
   });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
@@ -27,40 +26,35 @@ const Contact = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/api/sendEmail", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post(
+        "http://localhost:8080/email/send",
+        {
+          email: formData.email,
+          name: formData.name,
+          body: formData.message,
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Basic " + btoa("admin:admin123"), // ✅ Basic Auth
+          },
+        }
+      );
 
-      let result;
-      const contentType = response.headers.get("content-type");
+      // Check if the response contains specific messages
+      const responseMessage = response.data.message;
 
-      if (contentType && contentType.includes("application/json")) {
-        result = await response.json(); // Parse JSON response if available
-      } else {
-        result = null; // Handle empty or non-JSON response
-      }
-
-      if (response.ok) {
-        toast({
-          title: "Message sent!",
-          description: "I'll get back to you soon.",
-        });
+      if (responseMessage.includes("Daily limit of emails reached")) {
+        toast({ title: "Error", description: responseMessage });
+      } else if (responseMessage.includes("Error sending email")) {
+        toast({ title: "Error", description: "Server not reachable" });
+      } else if (responseMessage.includes("Email sent successfully")) {
+        toast({ title: "Success", description: responseMessage });
         setFormData({ name: "", email: "", message: "" });
-      } else {
-        console.error("Email send error:", result || "No response body");
-        toast({
-          title: "Error",
-          description: result?.error || "Fitur is on upgrade. Try again later.",
-        });
       }
     } catch (error) {
       console.error("Request failed:", error);
-      toast({
-        title: "Error",
-        description: "Something went wrong. Try again later.",
-      });
+      toast({ title: "Error", description: "Server not reachable" });
     } finally {
       setIsSubmitting(false);
     }
@@ -115,6 +109,7 @@ const Contact = () => {
                       value={formData.name}
                       onChange={handleChange}
                       required
+                      autoComplete="off"
                       className="w-full px-4 py-2 bg-secondary/50 rounded-md border border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
                       placeholder="Your name"
                     />
@@ -133,6 +128,7 @@ const Contact = () => {
                       value={formData.email}
                       onChange={handleChange}
                       required
+                      autoComplete="off"
                       className="w-full px-4 py-2 bg-secondary/50 rounded-md border border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all"
                       placeholder="Your email"
                     />
@@ -150,6 +146,7 @@ const Contact = () => {
                       value={formData.message}
                       onChange={handleChange}
                       required
+                      autoComplete="off"
                       rows={4}
                       className="w-full px-4 py-2 bg-secondary/50 rounded-md border border-white/10 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition-all resize-none"
                       placeholder="Your message"
