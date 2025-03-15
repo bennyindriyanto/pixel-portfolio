@@ -27,7 +27,7 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        "http://localhost:8080/email/send",
+        "http://13.54.255.181:8080/email/send",
         {
           email: formData.email,
           name: formData.name,
