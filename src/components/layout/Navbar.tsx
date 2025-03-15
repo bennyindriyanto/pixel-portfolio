@@ -59,7 +59,6 @@ const Navbar = () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
         >
-          <PixelArt type="cursor" size="sm" animated={false} />
           <span>Benny Indriyanto</span>
         </a>
 
