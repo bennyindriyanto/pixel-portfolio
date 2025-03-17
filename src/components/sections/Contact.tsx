@@ -40,12 +40,14 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
+        // "http://localhost:9090/email/send"
         backendAPI,
         {
           email: formData.email,
           name: formData.name,
           body: formData.message,
         },
+        // "admin:admin123"
         {
           headers: {
             "Content-Type": "application/json",
