@@ -24,10 +24,13 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+    const backendAPI = import.meta.env.VITE_BACKEND_EMAIL;
+    const auth = import.meta.env.VITE_BACKEND_AUTH;
+    // console.log("Backend API:", backendAPI);
+    console.log("Auth:", auth);
     try {
       const response = await axios.post(
-        "http://13.54.255.181:8080/email/send",
+        backendAPI,
         {
           email: formData.email,
           name: formData.name,
@@ -36,7 +39,7 @@ const Contact = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + btoa("admin:admin123"), // ✅ Basic Auth
+            Authorization: "Basic " + btoa(auth), // ✅ Basic Auth Header
           },
         }
       );
