@@ -24,10 +24,20 @@ const Contact = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+
     const backendAPI = import.meta.env.VITE_BACKEND_EMAIL;
     const auth = import.meta.env.VITE_BACKEND_AUTH;
-    // console.log("Backend API:", backendAPI);
-    console.log("Auth:", auth);
+
+    if (!backendAPI || !auth) {
+      console.error("❌ Backend API or Auth credentials are missing.");
+      toast({
+        title: "Error",
+        description: "Configuration error. Please check ENV settings.",
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const response = await axios.post(
         backendAPI,
@@ -39,25 +49,31 @@ const Contact = () => {
         {
           headers: {
             "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(auth), // ✅ Basic Auth Header
+            Authorization: "Basic " + btoa(auth), // ✅ Encodes `admin:admin123`
           },
         }
       );
 
-      // Check if the response contains specific messages
-      const responseMessage = response.data.message;
+      const responseMessage = response.data?.message || "No response message";
+      console.log("✅ Response:", responseMessage);
 
       if (responseMessage.includes("Daily limit of emails reached")) {
-        toast({ title: "Error", description: responseMessage });
+        toast({ title: "Limit Reached", description: responseMessage });
       } else if (responseMessage.includes("Error sending email")) {
-        toast({ title: "Error", description: "Server not reachable" });
+        toast({
+          title: "Error",
+          description: "Server error. Please try again.",
+        });
       } else if (responseMessage.includes("Email sent successfully")) {
         toast({ title: "Success", description: responseMessage });
-        setFormData({ name: "", email: "", message: "" });
+        setFormData({ name: "", email: "", message: "" }); // ✅ Clear form
       }
-    } catch (error) {
-      console.error("Request failed:", error);
-      toast({ title: "Error", description: "Server not reachable" });
+    } catch (error: any) {
+      console.error("❌ Request failed:", error);
+      toast({
+        title: "Error",
+        description: error.response?.data?.message || "Server not reachable",
+      });
     } finally {
       setIsSubmitting(false);
     }

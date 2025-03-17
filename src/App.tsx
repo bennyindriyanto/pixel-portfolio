@@ -13,7 +13,7 @@ const queryClient = new QueryClient();
 const App = () => {
   useEffect(() => {
     // Disable Right-Click
-    document.addEventListener("contextmenu", (event) => event.preventDefault());
+    // document.addEventListener("contextmenu", (event) => event.preventDefault());
 
     // Disable Developer Tools Shortcuts
     const disableShortcuts = (event: KeyboardEvent) => {
