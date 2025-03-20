@@ -45,6 +45,9 @@ const Contact = () => {
       return;
     }
 
+    console.log("✅ Backend API URL:", backendAPI);
+    console.log("✅ Full Backend API:", fullbackendapi);
+
     try {
       const response = await axios.post(
         fullbackendapi,
