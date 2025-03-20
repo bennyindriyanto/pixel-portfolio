@@ -26,10 +26,9 @@ const Contact = () => {
     setIsSubmitting(true);
 
     const backendAPI = import.meta.env.VITE_BACKEND_EMAIL;
-    const auth = import.meta.env.VITE_BACKEND_AUTH;
 
-    if (!backendAPI || !auth) {
-      console.error("❌ Backend API or Auth credentials are missing.");
+    if (!backendAPI) {
+      console.error("❌ Backend API is missing.");
       toast({
         title: "Error",
         description: "Configuration error. Please check ENV settings.",
@@ -40,42 +39,48 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        // "http://13.54.255.181:8080/ServiceEmail/email/send"
         backendAPI,
         {
-          email: formData.email,
-          name: formData.name,
-          body: formData.message,
+          email: formData.email.trim(),
+          name: formData.name.trim(),
+          body: formData.message.trim(),
         },
-        // "admin:admin123"
         {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Basic " + btoa(auth), // ✅ Encodes `admin:admin123`
-          },
+          headers: { "Content-Type": "application/json" },
         }
       );
 
-      const responseMessage = response.data?.message || "No response message";
-      console.log("✅ Response:", responseMessage);
+      console.log("✅ Full Response:", response);
 
-      if (responseMessage.includes("Daily limit of emails reached")) {
-        toast({ title: "Limit Reached", description: responseMessage });
-      } else if (responseMessage.includes("Error sending email")) {
+      const responseMessage = response.data?.message?.toLowerCase() || "";
+
+      if (responseMessage.includes("daily limit")) {
+        toast({ title: "Limit Reached", description: response.data.message });
+      } else if (responseMessage.includes("error")) {
         toast({
           title: "Error",
           description: "Server error. Please try again.",
         });
-      } else if (responseMessage.includes("Email sent successfully")) {
-        toast({ title: "Success", description: responseMessage });
+      } else if (responseMessage.includes("email sent successfully")) {
+        toast({ title: "Success", description: response.data.message });
         setFormData({ name: "", email: "", message: "" }); // ✅ Clear form
+      } else {
+        toast({ title: "Warning", description: "Unexpected server response." });
       }
     } catch (error: any) {
       console.error("❌ Request failed:", error);
-      toast({
-        title: "Error",
-        description: error.response?.data?.message || "Server not reachable",
-      });
+
+      let errorMessage = "Server not reachable";
+      if (error.response) {
+        errorMessage =
+          error.response.data?.message || `Error ${error.response.status}`;
+      } else if (error.request) {
+        errorMessage = "No response received from the server.";
+      } else {
+        errorMessage = "Request failed due to a configuration error.";
+      }
+
+      toast({ title: "Error", description: errorMessage });
     } finally {
       setIsSubmitting(false);
     }
