@@ -12,7 +12,7 @@ import Projects from "@/components/sections/Projects";
 import ParticleBackground from "@/components/sections/ParticleBackground";
 
 if (process.env.NODE_ENV === "production") {
-  // console.log = () => {};
+  console.log = () => {};
   console.warn = () => {};
   console.error = () => {};
   console.info = () => {};
