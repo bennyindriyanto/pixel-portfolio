@@ -26,6 +26,8 @@ const Contact = () => {
     setIsSubmitting(true);
 
     const backendAPI = import.meta.env.VITE_BACKEND_EMAIL;
+    const fullbackendapi = "/api/" + backendAPI.replace(/^\/+/, ""); // ✅ Removes extra "/"
+    console.log("✅ Full Backend API:", fullbackendapi);
 
     if (!backendAPI) {
       console.error("❌ Backend API is missing.");
@@ -36,10 +38,10 @@ const Contact = () => {
       setIsSubmitting(false);
       return;
     }
-    console.log("✅ Backend API:", backendAPI);
+
     try {
       const response = await axios.post(
-        backendAPI,
+        fullbackendapi,
         {
           email: formData.email.trim(),
           name: formData.name.trim(),
