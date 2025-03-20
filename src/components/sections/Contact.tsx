@@ -47,7 +47,7 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        backendAPI,
+        fullbackendapi,
         {
           email: formData.email.trim(),
           name: formData.name.trim(),
