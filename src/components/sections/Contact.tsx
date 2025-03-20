@@ -36,7 +36,7 @@ const Contact = () => {
       setIsSubmitting(false);
       return;
     }
-
+    console.log("✅ Backend API:", backendAPI);
     try {
       const response = await axios.post(
         backendAPI,
