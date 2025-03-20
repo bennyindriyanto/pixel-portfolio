@@ -31,7 +31,10 @@ const Contact = () => {
     // Ensure full URL
     const fullbackendapi = backendAPI.startsWith("http")
       ? backendAPI
-      : `http://localhost:8080/ServiceEmail/${backendAPI.replace(/^\/+/, "")}`;
+      : `http://13.54.255.181:8080/ServiceEmail/${backendAPI.replace(
+          /^\/+/,
+          ""
+        )}`;
 
     console.log("✅ Full Backend API:", fullbackendapi);
 
