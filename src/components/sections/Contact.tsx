@@ -40,7 +40,7 @@ const Contact = () => {
 
     try {
       const response = await axios.post(
-        // "http://localhost:9090/email/send"
+        // "http://13.54.255.181:8080/ServiceEmail/email/send"
         backendAPI,
         {
           email: formData.email,
