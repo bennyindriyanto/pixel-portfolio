@@ -9,7 +9,7 @@ export default defineConfig(({ mode }) => ({
     port: 8080,
     proxy: {
       "/api": {
-        target: "http://172.31.5.228:8080", // ✅ Proxy requests to your backend
+        target: "http://localhost:8080", // ✅ Proxy requests to your backend
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },
