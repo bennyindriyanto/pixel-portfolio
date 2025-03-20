@@ -26,7 +26,10 @@ const Contact = () => {
     setIsSubmitting(true);
 
     const backendAPI = import.meta.env.VITE_BACKEND_EMAIL;
-    const fullbackendapi = "/api/" + backendAPI.replace(/^\/+/, ""); // ✅ Removes extra "/"
+    const fullbackendapi = backendAPI.startsWith("http")
+      ? backendAPI
+      : "/api/" + backendAPI.replace(/^\/+/, "");
+
     console.log("✅ Full Backend API:", fullbackendapi);
 
     if (!backendAPI) {
