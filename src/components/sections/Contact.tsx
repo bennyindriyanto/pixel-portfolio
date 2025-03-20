@@ -26,10 +26,12 @@ const Contact = () => {
     setIsSubmitting(true);
 
     const backendAPI = import.meta.env.VITE_BACKEND_EMAIL;
-    console.log("✅ Backend API URL:", import.meta.env.VITE_BACKEND_EMAIL);
+    console.log("✅ Backend API URL:", backendAPI);
+
+    // Ensure full URL
     const fullbackendapi = backendAPI.startsWith("http")
       ? backendAPI
-      : "/api/" + backendAPI.replace(/^\/+/, "");
+      : `http://localhost:8080/ServiceEmail/${backendAPI.replace(/^\/+/, "")}`;
 
     console.log("✅ Full Backend API:", fullbackendapi);
 
