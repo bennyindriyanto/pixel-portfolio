@@ -29,7 +29,7 @@ const Footer = () => {
         <div className="grid gap-8 md:grid-cols-3">
           <div className="flex items-center md:justify-start justify-center gap-2">
             <PixelArt type="robot" size="sm" />
-            <span className="font-mono text-sm">🚀 PORTFOLIO</span>
+            <span className="font-mono text-sm">🚀 erlan</span>
           </div>
 
           <div className="flex justify-center items-center">
